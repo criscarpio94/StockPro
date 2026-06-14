@@ -30,7 +30,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun PantallaCatalogo(controlNavegacion: NavController, viewModel: StockViewModel, nombre: String) {
+fun PantallaCatalogo(controladorNavegacion: NavController, viewModel: StockViewModel, nombre: String) {
     var mostrarCriticos by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
@@ -67,7 +67,7 @@ fun PantallaCatalogo(controlNavegacion: NavController, viewModel: StockViewModel
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
-                    onClick = { controlNavegacion.navigate("edicion/$producto.id")
+                    onClick = { controladorNavegacion.navigate("edicion/$producto.id")
                     }
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -86,7 +86,7 @@ fun PantallaCatalogo(controlNavegacion: NavController, viewModel: StockViewModel
 
         //boton inferior
         Button(
-            onClick = { controlNavegacion.navigate("reporte") },
+            onClick = { controladorNavegacion.navigate("reporte") },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text("Ver reporte Financiero")
