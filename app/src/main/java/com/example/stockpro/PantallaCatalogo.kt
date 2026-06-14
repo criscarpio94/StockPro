@@ -1,6 +1,7 @@
 package com.example.stockpro
 
 import android.widget.Space
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -66,14 +67,14 @@ fun PantallaCatalogo(controladorNavegacion: NavController, viewModel: StockViewM
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    onClick = { controladorNavegacion.navigate("edicion/$producto.id")
-                    }
+                        .padding(vertical = 8.dp)
+                        .clickable {
+                            controladorNavegacion.navigate("edicion/${producto.id}")}
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(producto.nombre, fontWeight = FontWeight.Bold)
                         Text("Precio: $${producto.precio}")
-                        Text("Stock: $${producto.stockActual}",
+                        Text("Stock: ${producto.stockActual}",
                         color = if (producto.stockActual < 5) Color.Red else Color.Black
                         )
 
