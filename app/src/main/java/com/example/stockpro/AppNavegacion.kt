@@ -1,10 +1,11 @@
 package com.example.stockpro
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHost
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import androidx.navigation.NavController
+
 
 @Composable
 fun AppNavegacion(viewModel: StockViewModel) {
@@ -15,7 +16,7 @@ fun AppNavegacion(viewModel: StockViewModel) {
             PantallaIngreso(controladorNavegacion)
         }
         composable("catalogo/{nombre}") { backStackEntry ->
-            val nombre = backStackEntry.arguments?.getString("nombre")
+            val nombre = backStackEntry.arguments?.getString("nombre") ?: ""
             PantallaCatalogo(controladorNavegacion, viewModel, nombre)
         }
         composable("edicion/{id}") { backStackEntry ->
