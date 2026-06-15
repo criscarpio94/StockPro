@@ -30,4 +30,8 @@ class StockViewModel : ViewModel() {
     fun obtenerProductosRiesgo(): List<Producto> {
         return productos.filter { it.stockActual < 5 }
     }
+
+    fun obtenerProductosCero(): Int {
+        return productos.count { it.stockActual == 0 }
+    }
 }

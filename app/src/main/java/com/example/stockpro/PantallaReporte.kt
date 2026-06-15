@@ -23,7 +23,7 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun PantallaReporte(controladorNavegacion: NavController, viewModel: StockViewModel) {
     val valorTotal = viewModel.calcularValorTotalInventario()
-    val productosSinStock = viewModel.productos.count { it.stockActual == 0 }
+    val productosSinStock = viewModel.obtenerProductosCero()
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
