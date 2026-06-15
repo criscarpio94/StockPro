@@ -11,7 +11,12 @@ class StockViewModel : ViewModel() {
         Producto(3, "Pintura Negra", "Esmalte Litro", 6.0, 7),
         Producto(4, "Brocha #4", "Wilson cerda fina", 3.5,  0),
         Producto(5, "Varilla corrugada", "Grosor 12mm", 14.0, 2),
-        Producto(6, "Serrucho", "Bellota 12 pul", 7.0, 12)
+        Producto(6, "Serrucho", "Bellota 12 pul", 7.0, 12),
+        Producto(7, "Clavos acero 2 pul", "Caja de 100 unidades", 4.3, 15),
+        Producto(8, "Flexometro 3m", "Century plastico", 4.5, 5),
+        Producto(9, "Guante Nitrilo M", "Par negro inudstrial", 2.2, 15),
+        Producto(10, "Suelda 6011", "AGA Funda 5 Kls", 15.0, 4)
+
     )
 
     fun obtenerProducto(id: Int): Producto? {
@@ -19,8 +24,11 @@ class StockViewModel : ViewModel() {
     }
 
     fun actualizarStock(id: Int, nuevaCantidad: Int) {
-        val producto = obtenerProducto(id)
-        producto?.stockActual = nuevaCantidad
+        val indice = productos.indexOfFirst { it.id == id }
+        if (indice != -1) {
+            //.copy realiza el cambio solo en stockActual, no hay necesidad de redibujar toda la pantalla
+            productos[indice] = productos[indice].copy(stockActual = nuevaCantidad)
+        }
     }
 
     fun calcularValorTotalInventario(): Double {

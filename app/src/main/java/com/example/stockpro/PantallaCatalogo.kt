@@ -62,7 +62,7 @@ fun PantallaCatalogo(controladorNavegacion: NavController, viewModel: StockViewM
             viewModel.productos
         }
 
-        LazyColumn {
+        LazyColumn (modifier = Modifier.weight(1f)) {
             items(productos) { producto ->
                 Card(
                     modifier = Modifier
