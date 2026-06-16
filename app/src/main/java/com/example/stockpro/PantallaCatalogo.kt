@@ -1,6 +1,7 @@
 package com.example.stockpro
 
 import android.widget.Space
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,9 +13,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DividerDefaults.color
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDefaults
+import androidx.compose.material3.SnackbarDefaults.color
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,10 +29,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
@@ -34,21 +42,42 @@ import androidx.navigation.compose.rememberNavController
 fun PantallaCatalogo(controladorNavegacion: NavController, viewModel: StockViewModel, nombre: String) {
     var mostrarCriticos by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(Color(0xC4C5C02C))
+        .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier.height(40.dp))
+
         Text(
             "Operario: $nombre",
-            fontSize = MaterialTheme.typography.titleLarge.fontSize,
-            fontWeight = FontWeight.Bold
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.DarkGray,
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.CenterHorizontally)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         //Botones
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            Button(onClick = { mostrarCriticos = false }) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Button(
+                onClick = { mostrarCriticos = false },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(8.dp)
+            ) {
                 Text("Ver Todo")
             }
-            Button(onClick = { mostrarCriticos = true }) {
+            Button(
+                onClick = { mostrarCriticos = true },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(8.dp)
+            ) {
                 Text("Stock Criticos")
             }
         }
@@ -64,18 +93,26 @@ fun PantallaCatalogo(controladorNavegacion: NavController, viewModel: StockViewM
 
         LazyColumn (modifier = Modifier.weight(1f)) {
             items(productos) { producto ->
+                val esCritico = producto.stockActual < 5
+
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(vertical = 6.dp)
                         .clickable {
-                            controladorNavegacion.navigate("edicion/${producto.id}")}
+                            controladorNavegacion.navigate("edicion/${producto.id}")},
+                    shape = RoundedCornerShape(14.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (esCritico) Color.Cyan else MaterialTheme.colorScheme.surface
+                    )
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Text(producto.nombre, fontWeight = FontWeight.Bold)
-                        Text("Precio: $${producto.precio}")
-                        Text("Stock: ${producto.stockActual}",
-                        color = if (producto.stockActual < 5) Color.Red else Color.Black
+                        Text(producto.nombre, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text("Precio: $ ${producto.precio}", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(
+                            text = "Stock: ${producto.stockActual}",
+                            fontWeight = FontWeight.Bold,
+                            color = if (producto.stockActual < 5) Color.Red else Color.Black
                         )
 
                     }
@@ -85,12 +122,15 @@ fun PantallaCatalogo(controladorNavegacion: NavController, viewModel: StockViewM
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        //boton inferior
+        //boton reporte finaciero
         Button(
             onClick = { controladorNavegacion.navigate("reporte") },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Text("Ver reporte Financiero")
+            Text("Ver reporte Financiero", fontSize = 16.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
